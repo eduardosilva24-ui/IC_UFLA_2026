@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Coffee Intelligence Research System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="icon-dashboard" viewBox="0 0 24 24">
+      <path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6v-9h-6v9Zm0-16v5h6V4h-6Z"/>
+    </symbol>
+    <symbol id="icon-upload" viewBox="0 0 24 24">
+      <path d="M12 3 7 8h3v7h4V8h3l-5-5Z"/>
+      <path d="M5 19h14v-4h2v6H3v-6h2v4Z"/>
+    </symbol>
+    <symbol id="icon-insight" viewBox="0 0 24 24">
+      <path d="M9 21h6v-2H9v2Zm3-19a7 7 0 0 0-4 12.73V17h8v-2.27A7 7 0 0 0 12 2Z"/>
+    </symbol>
+    <symbol id="icon-country" viewBox="0 0 24 24">
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm7.7 9h-3.12a15.7 15.7 0 0 0-1.16-5.07A8.02 8.02 0 0 1 19.7 11ZM12 4.04c.72 1.04 1.9 3.2 2.2 6.96H9.8C10.1 7.24 11.28 5.08 12 4.04ZM4.3 13h3.12c.14 1.86.55 3.6 1.16 5.07A8.02 8.02 0 0 1 4.3 13Zm3.12-2H4.3a8.02 8.02 0 0 1 4.28-5.07A15.7 15.7 0 0 0 7.42 11ZM12 19.96c-.72-1.04-1.9-3.2-2.2-6.96h4.4c-.3 3.76-1.48 5.92-2.2 6.96Zm3.42-1.89A15.7 15.7 0 0 0 16.58 13h3.12a8.02 8.02 0 0 1-4.28 5.07Z"/>
+    </symbol>
+    <symbol id="icon-activity" viewBox="0 0 24 24">
+      <path d="M4 13h4l2-6 4 12 2-6h4v-2h-5.44l-.56 1.68L10 1 6.56 11H4v2Z"/>
+    </symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24">
+      <path d="M9 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.3 0-6 1.57-6 3.5V20h12v-2.5C15 15.57 12.3 14 9 14Zm7.5-1.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm0 1.5c-.55 0-1.08.04-1.58.12 1.32.86 2.08 2.02 2.08 3.38V20h4v-2.25c0-2.07-2.02-3.75-4.5-3.75Z"/>
+    </symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24">
+      <path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.1-1.64-2-3.46-2.48 1a7.42 7.42 0 0 0-1.7-.98L15 3h-4l-.36 2.94c-.61.24-1.18.56-1.7.98l-2.48-1-2 3.46 2.1 1.64c-.04.32-.06.65-.06.98s.02.66.07.98l-2.1 1.64 2 3.46 2.48-1c.52.4 1.09.74 1.7.98L11 21h4l.36-2.94c.61-.24 1.18-.56 1.7-.98l2.48 1 2-3.46-2.11-1.64ZM13 15.73A4 4 0 1 1 11 8.27a4 4 0 0 1 2 7.46Z"/>
+    </symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24">
+      <path d="M4 6h16v2H4V6Zm0 5h16v2H4v-2Zm0 5h16v2H4v-2Z"/>
+    </symbol>
+  </svg>
+
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <section id="loginView" class="auth-shell">
+    <div class="auth-backdrop"></div>
+    <div class="auth-layout">
+      <div class="auth-story">
+        <div class="brand-mark brand-mark-large">CI</div>
+        <p class="eyebrow">Private research workspace</p>
+        <h1>Coffee Intelligence Research System</h1>
+        <p class="auth-copy">A collaborative command center for academic collection, competitive intelligence evidence, country monitoring, and internal research discussions.</p>
+        <div class="auth-metrics">
+          <span>Global coffee markets</span>
+          <span>Academic evidence</span>
+          <span>Team workflow</span>
+        </div>
+      </div>
+
+      <form id="loginForm" class="auth-panel" autocomplete="on">
+        <div class="panel-heading">
+          <div class="brand-row">
+            <div class="brand-mark">CI</div>
+            <div>
+              <strong>Coffee Intelligence</strong>
+              <span>Research System</span>
+            </div>
+          </div>
+          <h2>Sign in</h2>
+        </div>
+
+        <label class="field">
+          <span>Username</span>
+          <input id="loginUsername" name="username" type="text" autocomplete="username" required>
+        </label>
+
+        <label class="field">
+          <span>Password</span>
+          <input id="loginPassword" name="password" type="password" autocomplete="current-password" required>
+        </label>
+
+        <button id="loginButton" class="button button-primary button-wide" type="submit">
+          <span class="button-label">Sign in</span>
+          <span class="button-loader" aria-hidden="true"></span>
+        </button>
+
+        <p id="loginError" class="form-error" role="alert"></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="appView" class="app-shell is-hidden">
+    <aside id="sidebar" class="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <div class="brand-mark">CI</div>
+        <div>
+          <strong>Coffee Intelligence</strong>
+          <span>Research System</span>
+        </div>
+      </div>
+
+      <nav class="nav-list">
+        <button class="nav-item is-active" data-page="dashboard" type="button">
+          <svg><use href="#icon-dashboard"></use></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-page="uploads" type="button">
+          <svg><use href="#icon-upload"></use></svg>
+          <span>Uploads</span>
+        </button>
+        <button class="nav-item" data-page="insights" type="button">
+          <svg><use href="#icon-insight"></use></svg>
+          <span>Insights</span>
+        </button>
+        <button class="nav-item" data-page="countries" type="button">
+          <svg><use href="#icon-country"></use></svg>
+          <span>Countries</span>
+        </button>
+        <button class="nav-item" data-page="activity" type="button">
+          <svg><use href="#icon-activity"></use></svg>
+          <span>Activity</span>
+        </button>
+        <button class="nav-item admin-only" data-page="users" type="button">
+          <svg><use href="#icon-users"></use></svg>
+          <span>Users</span>
+        </button>
+        <button class="nav-item" data-page="settings" type="button">
+          <svg><use href="#icon-settings"></use></svg>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="themeToggle" class="button button-subtle" type="button">Dark mode</button>
+        <button id="logoutButton" class="button button-ghost" type="button">Logout</button>
+      </div>
+    </aside>
+
+    <div id="sidebarScrim" class="sidebar-scrim"></div>
+
+    <main class="main-shell">
+      <header class="topbar">
+        <button id="mobileMenuButton" class="icon-button mobile-only" type="button" aria-label="Open navigation">
+          <svg><use href="#icon-menu"></use></svg>
+        </button>
+        <div class="page-title">
+          <p id="pageEyebrow" class="eyebrow">Workspace overview</p>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+        <div class="topbar-actions">
+          <a id="sheetLinkTop" class="button button-subtle hide-small" href="https://docs.google.com/spreadsheets/d/1cZ7iit2zpPsE_gDcJyi2h2UBvVK64TOlMuuBR8xFflg/edit?usp=sharing" target="_blank" rel="noopener">Database</a>
+          <button id="refreshButton" class="button button-subtle" type="button">Refresh</button>
+          <div class="user-chip">
+            <span id="userInitials">--</span>
+            <div>
+              <strong id="userName">User</strong>
+              <em id="userRole">researcher</em>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div id="loadingState" class="loading-state">
+        <span class="spinner"></span>
+        <span>Loading workspace</span>
+      </div>
+
+      <div class="content-shell">
+        <section id="dashboardPage" class="page is-active" data-page-panel="dashboard">
+          <div id="statsGrid" class="stats-grid"></div>
+
+          <div class="dashboard-layout">
+            <article class="surface surface-wide">
+              <div class="surface-header">
+                <div>
+                  <p class="eyebrow">Overview</p>
+                  <h2>Collection pulse</h2>
+                </div>
+                <span id="lastRefresh" class="muted"></span>
+              </div>
+              <div id="overviewCharts" class="overview-grid"></div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-header">
+                <div>
+                  <p class="eyebrow">Recent</p>
+                  <h2>Uploads</h2>
+                </div>
+                <button class="text-button" data-page="uploads" type="button">View all</button>
+              </div>
+              <div id="recentUploads" class="stack-list"></div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-header">
+                <div>
+                  <p class="eyebrow">Recent</p>
+                  <h2>Insights</h2>
+                </div>
+                <button class="text-button" data-page="insights" type="button">View all</button>
+              </div>
+              <div id="recentInsights" class="stack-list"></div>
+            </article>
+
+            <article class="surface surface-wide">
+              <div class="surface-header">
+                <div>
+                  <p class="eyebrow">Timeline</p>
+                  <h2>Latest activity</h2>
+                </div>
+              </div>
+              <div id="dashboardActivity" class="timeline compact"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="uploadsPage" class="page" data-page-panel="uploads">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Research data center</p>
+              <h2>Uploads</h2>
+            </div>
+            <button id="newUploadButton" class="button button-primary" type="button">New upload</button>
+          </div>
+
+          <div class="filters-panel">
+            <label class="filter-field search-field">
+              <span>Search</span>
+              <input id="uploadSearch" type="search" placeholder="Title, description, tag">
+            </label>
+            <label class="filter-field">
+              <span>Country</span>
+              <select id="uploadCountryFilter"></select>
+            </label>
+            <label class="filter-field">
+              <span>Category</span>
+              <select id="uploadCategoryFilter"></select>
+            </label>
+            <label class="filter-field">
+              <span>Type</span>
+              <select id="uploadTypeFilter"></select>
+            </label>
+            <label class="filter-field">
+              <span>Author</span>
+              <select id="uploadAuthorFilter"></select>
+            </label>
+            <label class="filter-field">
+              <span>Tag</span>
+              <input id="uploadTagFilter" type="text" placeholder="arabica">
+            </label>
+            <label class="filter-field">
+              <span>From</span>
+              <input id="uploadFromFilter" type="date">
+            </label>
+            <label class="filter-field">
+              <span>To</span>
+              <input id="uploadToFilter" type="date">
+            </label>
+          </div>
+
+          <div id="uploadsList" class="data-list"></div>
+        </section>
+
+        <section id="insightsPage" class="page" data-page-panel="insights">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Collaborative notes</p>
+              <h2>Insights</h2>
+            </div>
+            <button id="newInsightButton" class="button button-primary" type="button">New insight</button>
+          </div>
+
+          <div class="filters-panel compact-filters">
+            <label class="filter-field search-field">
+              <span>Search</span>
+              <input id="insightSearch" type="search" placeholder="Hypothesis, country, category">
+            </label>
+            <label class="filter-field">
+              <span>Country</span>
+              <select id="insightCountryFilter"></select>
+            </label>
+            <label class="filter-field">
+              <span>Category</span>
+              <select id="insightCategoryFilter"></select>
+            </label>
+          </div>
+
+          <div id="insightsList" class="insight-grid"></div>
+        </section>
+
+        <section id="countriesPage" class="page" data-page-panel="countries">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Market monitoring</p>
+              <h2>Countries</h2>
+            </div>
+          </div>
+          <div id="countriesGrid" class="countries-grid"></div>
+        </section>
+
+        <section id="activityPage" class="page" data-page-panel="activity">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Research operations</p>
+              <h2>Activity</h2>
+            </div>
+          </div>
+          <div id="activityTimeline" class="timeline full"></div>
+        </section>
+
+        <section id="usersPage" class="page" data-page-panel="users">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Administration</p>
+              <h2>Users</h2>
+            </div>
+            <button id="newUserButton" class="button button-primary admin-only" type="button">New user</button>
+          </div>
+          <div id="usersList" class="table-shell"></div>
+        </section>
+
+        <section id="settingsPage" class="page" data-page-panel="settings">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Workspace</p>
+              <h2>Settings</h2>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <article class="surface">
+              <div class="surface-header">
+                <div>
+                  <p class="eyebrow">Account</p>
+                  <h2>Profile</h2>
+                </div>
+              </div>
+              <div class="definition-list">
+                <div><span>Username</span><strong id="settingsUsername">-</strong></div>
+                <div><span>Email</span><strong id="settingsEmail">-</strong></div>
+                <div><span>Permission</span><strong id="settingsRole">-</strong></div>
+              </div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-header">
+                <div>
+                  <p class="eyebrow">Security</p>
+                  <h2>Change password</h2>
+                </div>
+              </div>
+              <form id="passwordForm" class="form-grid">
+                <label class="field">
+                  <span>Current password</span>
+                  <input id="currentPassword" type="password" required autocomplete="current-password">
+                </label>
+                <label class="field">
+                  <span>New password</span>
+                  <input id="newPassword" type="password" required autocomplete="new-password" minlength="6">
+                </label>
+                <label class="field">
+                  <span>Confirm password</span>
+                  <input id="confirmPassword" type="password" required autocomplete="new-password" minlength="6">
+                </label>
+                <button class="button button-primary" type="submit">Update password</button>
+              </form>
+            </article>
+
+            <article class="surface">
+              <div class="surface-header">
+                <div>
+                  <p class="eyebrow">Integration</p>
+                  <h2>Google resources</h2>
+                </div>
+              </div>
+              <div class="resource-list">
+                <a href="https://docs.google.com/spreadsheets/d/1cZ7iit2zpPsE_gDcJyi2h2UBvVK64TOlMuuBR8xFflg/edit?usp=sharing" target="_blank" rel="noopener">
+                  <span>Google Sheets Database</span>
+                  <strong>Open spreadsheet</strong>
+                </a>
+                <a href="https://script.google.com/macros/s/AKfycbwwoLfaAVBdrH9l7myWTZ3rvWlvO0NZRi1cwXISK4_2RO1DV5CxpjfBlo2qRF8kMsz_/exec" target="_blank" rel="noopener">
+                  <span>Google Apps Script Web App</span>
+                  <strong>Open web app</strong>
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </section>
+
+  <dialog id="uploadModal" class="modal">
+    <form id="uploadForm" class="modal-card" method="dialog">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Data source</p>
+          <h2>New upload</h2>
+        </div>
+        <button class="icon-button modal-close" type="button" aria-label="Close">x</button>
+      </div>
+      <div class="modal-body form-grid">
+        <label class="field span-2">
+          <span>Title</span>
+          <input id="uploadTitle" type="text" required>
+        </label>
+        <label class="field span-2">
+          <span>Description</span>
+          <textarea id="uploadDescription" rows="4"></textarea>
+        </label>
+        <label class="field">
+          <span>Category</span>
+          <input id="uploadCategory" type="text" list="categorySuggestions" required placeholder="Market trends">
+        </label>
+        <label class="field">
+          <span>Country</span>
+          <input id="uploadCountry" type="text" list="countrySuggestions" required placeholder="Brazil">
+        </label>
+        <label class="field">
+          <span>Content type</span>
+          <select id="uploadType" required>
+            <option value="">Select</option>
+            <option value="news">News</option>
+            <option value="report">Report</option>
+            <option value="pdf">PDF</option>
+            <option value="spreadsheet">Spreadsheet</option>
+            <option value="scientific_article">Scientific article</option>
+            <option value="reference">Reference</option>
+            <option value="observation">Observation</option>
+            <option value="external_link">External link</option>
+            <option value="google_drive">Google Drive link</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Priority</span>
+          <select id="uploadPriority">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Status</span>
+          <select id="uploadStatus">
+            <option value="new">New</option>
+            <option value="reviewing">Reviewing</option>
+            <option value="validated">Validated</option>
+            <option value="archived">Archived</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Tags</span>
+          <input id="uploadTags" type="text" placeholder="exports, arabica, prices">
+        </label>
+        <label class="field span-2">
+          <span>Google Drive link</span>
+          <input id="uploadDriveLink" type="url" placeholder="https://drive.google.com/...">
+        </label>
+        <label class="field span-2">
+          <span>External link</span>
+          <input id="uploadExternalLink" type="url" placeholder="https://example.com/...">
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="button button-subtle modal-close" type="button">Cancel</button>
+        <button class="button button-primary" type="submit">Create upload</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="insightModal" class="modal">
+    <form id="insightForm" class="modal-card" method="dialog">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Strategic note</p>
+          <h2>New insight</h2>
+        </div>
+        <button class="icon-button modal-close" type="button" aria-label="Close">x</button>
+      </div>
+      <div class="modal-body form-grid">
+        <label class="field span-2">
+          <span>Title</span>
+          <input id="insightTitle" type="text" required>
+        </label>
+        <label class="field span-2">
+          <span>Insight, hypothesis, or observation</span>
+          <textarea id="insightContent" rows="6" required></textarea>
+        </label>
+        <label class="field">
+          <span>Category</span>
+          <input id="insightCategory" type="text" list="categorySuggestions" placeholder="Competitive dynamics">
+        </label>
+        <label class="field">
+          <span>Related country</span>
+          <input id="insightCountry" type="text" list="countrySuggestions" placeholder="Colombia">
+        </label>
+        <label class="field">
+          <span>Priority</span>
+          <select id="insightPriority">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Status</span>
+          <select id="insightStatus">
+            <option value="draft">Draft</option>
+            <option value="discussion">Discussion</option>
+            <option value="validated">Validated</option>
+            <option value="archived">Archived</option>
+          </select>
+        </label>
+        <label class="field span-2">
+          <span>Tags</span>
+          <input id="insightTags" type="text" placeholder="supply, futures, climate">
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="button button-subtle modal-close" type="button">Cancel</button>
+        <button class="button button-primary" type="submit">Create insight</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="commentsModal" class="modal">
+    <form id="commentForm" class="modal-card modal-wide" method="dialog">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Academic discussion</p>
+          <h2 id="commentsTitle">Comments</h2>
+        </div>
+        <button class="icon-button modal-close" type="button" aria-label="Close">x</button>
+      </div>
+      <div class="modal-body">
+        <div id="commentsList" class="comments-list"></div>
+        <label class="field">
+          <span>Comment</span>
+          <textarea id="commentText" rows="3" required></textarea>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="button button-subtle modal-close" type="button">Close</button>
+        <button class="button button-primary" type="submit">Post comment</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="userModal" class="modal">
+    <form id="userForm" class="modal-card" method="dialog">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Access control</p>
+          <h2>New user</h2>
+        </div>
+        <button class="icon-button modal-close" type="button" aria-label="Close">x</button>
+      </div>
+      <div class="modal-body form-grid">
+        <label class="field">
+          <span>Username</span>
+          <input id="newUsername" type="text" required autocomplete="off">
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input id="newUserEmail" type="email" required autocomplete="off">
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input id="newUserPassword" type="password" required minlength="6" autocomplete="new-password">
+        </label>
+        <label class="field">
+          <span>Permission</span>
+          <select id="newUserRole" required>
+            <option value="researcher">Researcher</option>
+            <option value="admin">Admin</option>
+          </select>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="button button-subtle modal-close" type="button">Cancel</button>
+        <button class="button button-primary" type="submit">Create user</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="resetPasswordModal" class="modal">
+    <form id="resetPasswordForm" class="modal-card" method="dialog">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Administrator action</p>
+          <h2>Reset password</h2>
+        </div>
+        <button class="icon-button modal-close" type="button" aria-label="Close">x</button>
+      </div>
+      <div class="modal-body">
+        <input id="resetPasswordUsername" type="hidden">
+        <label class="field">
+          <span>New password</span>
+          <input id="resetPasswordValue" type="password" required minlength="6" autocomplete="new-password">
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="button button-subtle modal-close" type="button">Cancel</button>
+        <button class="button button-primary" type="submit">Reset password</button>
+      </div>
+    </form>
+  </dialog>
+
+  <datalist id="countrySuggestions"></datalist>
+  <datalist id="categorySuggestions"></datalist>
+
+  <script src="script.js"></script>
+</body>
+</html>

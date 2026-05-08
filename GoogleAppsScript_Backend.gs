@@ -830,7 +830,14 @@ function postMessageHtml_(payload, requestId) {
   }).replace(/</g, '\\u003c').replace(/<\/script/gi, '<\\/script');
 
   return '<!doctype html><html><head><meta charset="utf-8"></head><body>' +
-    '<script>window.parent.postMessage(' + message + ', "*");</script>' +
+    '<script>' +
+    '(function(){' +
+    'var message=' + message + ';' +
+    'try{window.parent.postMessage(message,"*");}catch(e){}' +
+    'try{window.top.postMessage(message,"*");}catch(e){}' +
+    'try{window.parent.parent.postMessage(message,"*");}catch(e){}' +
+    '}());' +
+    '</script>' +
     '</body></html>';
 }
 

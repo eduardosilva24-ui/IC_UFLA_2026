@@ -71,7 +71,14 @@
         }
 
         function handleMessage(event) {
-          const data = event.data || {};
+          let data = event.data || {};
+          if (typeof data === 'string') {
+            try {
+              data = JSON.parse(data);
+            } catch (error) {
+              data = {};
+            }
+          }
           if (!data.__cirsResponse || data.requestId !== requestId) return;
           cleanup();
           resolve(data.response);
